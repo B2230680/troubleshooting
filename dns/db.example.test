@@ -1,0 +1,14 @@
+$TTL 86400
+
+@   IN SOA dns.example.test. admin.example.test. (
+        1
+        3600
+        1800
+        604800
+        86400
+)
+
+@       IN NS dns.example.test.
+
+dns     IN A 192.168.30.30
+www     IN A 192.168.30.40

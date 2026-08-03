@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Troubleshooting Lab</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">DOCKER NETWORK LAB</span><h1>ネットワーク障害対応演習</h1></div><div id="lab-status">状態を取得中…</div></header>
+  <main class="dashboard">
+    <section class="panel topology"><div class="panel-head"><h2>ネットワーク構成図</h2><span>client1 から www.example.test へ</span></div>
+      <div class="diagram" aria-label="ネットワーク構成図">
+        <div class="node client">client1<small>192.168.20.20</small></div><i></i><div class="node router">Router2<small>192.168.20.10 / .12.20</small></div><i></i><div class="node router core">Router1<small>.12.10 / .13.10</small></div><i></i><div class="node router">Router3<small>.13.20 / .30.10</small></div><i></i><div class="server-stack"><div class="node service">DNS<small>.30.30</small></div><div class="node service">Web<small>www.example.test<br>.30.40</small></div><div class="node service">client2<small>.30.20</small></div></div>
+      </div>
+      <p class="legend"><span></span> 通信経路　 Router1 は internet (10.0.10.0/24) にも接続</p>
+    </section>
+    <section class="panel help"><div class="panel-head"><h2>コマンド解説</h2><span id="command-title">経路を確認する</span></div>
+      <div id="help-content"><code>ip route</code><p>ルーティングテーブルを表示します。まずデフォルトゲートウェイと宛先ネットワークへの経路を確認します。</p></div>
+      <div class="quick-commands"><button data-command="ip route">ip route</button><button data-command="ping -c 3 192.168.30.40">ping Web</button><button data-command="traceroute -n 192.168.30.40">traceroute</button><button data-command="dig www.example.test">dig DNS</button><button data-command="curl -i http://www.example.test/">curl Web</button><button data-command="vtysh -c 'show ip route'">FRR route</button></div>
+    </section>
+    <section class="panel menu"><div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div>
+      <div class="actions"><button class="primary" id="check">通信疎通を確認</button><button id="inject-default">障害: デフォルト経路を切断</button><button id="inject-static">障害: Router3 の静的経路を破損</button><button id="restore-default">デフォルト経路を復旧</button><button id="restore-static">静的経路を復旧</button></div>
+      <div id="result" class="result">障害を修正後、「通信疎通を確認」を実行してください。</div>
+      <p class="notice">合格条件: DNS 名解決と <code>www.example.test</code> への HTTP 接続に成功すること。</p>
+    </section>
+    <section class="panel terminal"><div class="terminal-bar"><label>接続先 <select id="target"><option>client1</option><option>client2</option><option>router1</option><option>router2</option><option>router3</option><option>dns</option><option>web</option></select></label><span id="target-state"></span><button id="clear" class="small">クリア</button></div>
+      <pre id="output">Network Troubleshooting Lab terminal\n接続先を選び、コマンドを実行してください。\n</pre><form id="terminal-form"><span id="prompt">client1 $</span><input id="command" autocomplete="off" placeholder="例: ip route" autofocus><button>実行</button></form>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body></html>

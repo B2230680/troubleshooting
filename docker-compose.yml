@@ -1,0 +1,142 @@
+services:
+
+  internet:
+    build: ./internet
+    container_name: internet
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      internet:
+        ipv4_address: 10.0.10.10
+
+  router1:
+    build: ./router1
+    container_name: router1
+    hostname: Router1
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      r1-r2:
+        ipv4_address: 192.168.12.10
+      r1-r3:
+        ipv4_address: 192.168.13.10
+      internet:
+        ipv4_address: 10.0.10.20
+
+  router2:
+    build: ./router2
+    container_name: router2
+    hostname: Router2
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      r1-r2:
+        ipv4_address: 192.168.12.20
+      client1-net:
+        ipv4_address: 192.168.20.10
+
+  router3:
+    build: ./router3
+    container_name: router3
+    hostname: Router3
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      r1-r3:
+        ipv4_address: 192.168.13.20
+      server-net:
+        ipv4_address: 192.168.30.10
+
+  client1:
+    build: ./client1
+    container_name: client1
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      client1-net:
+        ipv4_address: 192.168.20.20
+
+  client2:
+    build: ./client2
+    container_name: client2
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      server-net:
+        ipv4_address: 192.168.30.20
+
+  dns:
+    build: ./dns
+    container_name: dns
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      server-net:
+        ipv4_address: 192.168.30.30
+
+  web:
+    build: ./web
+    container_name: web
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      server-net:
+        ipv4_address: 192.168.30.40
+
+  lab-ui:
+    build: ./lab_ui
+    container_name: lab-ui
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      DOCKER_HOST: unix:///var/run/docker.sock
+    depends_on:
+      - client1
+      - client2
+      - router1
+      - router2
+      - router3
+      - dns
+      - web
+
+networks:
+
+  internet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.10.0/24
+
+  r1-r2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.12.0/24
+
+  r1-r3:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.13.0/24
+
+  client1-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.20.0/24
+
+  server-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.30.0/24
