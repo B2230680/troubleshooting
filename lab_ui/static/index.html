@@ -20,12 +20,12 @@
       <div class="quick-commands"><button data-command="ip route">ip route</button><button data-command="ping -c 3 192.168.30.40">ping Web</button><button data-command="traceroute -n 192.168.30.40">traceroute</button><button data-command="dig www.example.test">dig DNS</button><button data-command="curl -i http://www.example.test/">curl Web</button><button data-command="vtysh -c 'show ip route'">FRR route</button></div>
     </section>
     <section class="panel menu"><div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div>
-      <div class="actions"><button class="primary" id="check">通信疎通を確認</button><button id="inject-default">障害: デフォルト経路を切断</button><button id="inject-static">障害: Router3 の静的経路を破損</button><button id="restore-default">デフォルト経路を復旧</button><button id="restore-static">静的経路を復旧</button></div>
+      <div class="actions"><button class="primary" id="check">通信疎通を確認</button><button id="inject-default">障害: デフォルト経路を切断</button><button id="inject-static">障害: Router3 の静的経路を破損</button><button id="restore-default">デフォルト経路を復旧</button><button id="restore-static">静的経路を復旧</button><button id="inject-random">ランダム障害生成</button></div>
       <div id="result" class="result">障害を修正後、「通信疎通を確認」を実行してください。</div>
       <p class="notice">合格条件: DNS 名解決と <code>www.example.test</code> への HTTP 接続に成功すること。</p>
     </section>
     <section class="panel terminal"><div class="terminal-bar"><label>接続先 <select id="target"><option>client1</option><option>client2</option><option>router1</option><option>router2</option><option>router3</option><option>dns</option><option>web</option></select></label><span id="target-state"></span><button id="clear" class="small">クリア</button></div>
-      <pre id="output">Network Troubleshooting Lab terminal\n接続先を選び、コマンドを実行してください。\n</pre><form id="terminal-form"><span id="prompt">client1 $</span><input id="command" autocomplete="off" placeholder="例: ip route" autofocus><button>実行</button></form>
+      <pre id="output" aria-live="polite"></pre><form id="terminal-form"><span id="prompt">client1 $</span><input id="command" autocomplete="off" placeholder="例: ip route（Ctrl+C / Ctrl+D 対応）" autofocus><button>送信</button></form>
     </section>
   </main>
   <script src="/static/app.js"></script>
