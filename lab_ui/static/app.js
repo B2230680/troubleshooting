@@ -101,7 +101,7 @@ async function fault(action) {
     result.className = 'result fail';
   }
 }
-document.querySelector('#inject-default').onclick = () => fault({fault:'default-route', mode:'inject', label:'デフォルト経路の障害注入'});
+document.querySelector('#inject-default').onclick = () => fault({fault:'default-route' , mode:'inject', label:'デフォルト経路の障害注入'});
 document.querySelector('#inject-static').onclick = () => fault({fault:'static-route', mode:'inject', label:'静的経路の障害注入'});
 //document.querySelector('#restore-default').onclick = () => fault({fault:'default-route', mode:'restore', label:'デフォルト経路の復旧'});
 //document.querySelector('#restore-static').onclick = () => fault({fault:'static-route', mode:'restore', label:'静的経路の復旧'});

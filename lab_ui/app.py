@@ -190,7 +190,7 @@ def inject_fault(fault: str):
     if fault == "random":
         selected = random.choice(FAULTS)
         result = inject_known_fault(selected)
-        return {"fault": selected, **result}
+        return {"output": result.get("output", "")}
     return {"fault": fault, **inject_known_fault(fault)}
 
 
