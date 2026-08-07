@@ -6,6 +6,7 @@ const result = document.querySelector('#result');
 const targetState = document.querySelector('#target-state');
 let terminalSocket;
 const decoder = new TextDecoder();
+//const ansiUp = new AnsiUp();
 
 const explanations = {
   'ip route': ['経路を確認する', 'ルーティングテーブルを表示します。デフォルトゲートウェイと宛先ネットワークへの経路を確認します。'],
@@ -17,7 +18,10 @@ const explanations = {
 };
 
 function append(text) {
-  output.textContent += text;
+  //const html = ansiUp.ansi_to_html(text);
+  // ANSIエスケープシーケンス（色やカーソル制御コード）を自動で消去する
+  const cleanText = text.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, '');
+  output.textContent += cleanText;
   output.scrollTop = output.scrollHeight;
 }
 
@@ -99,8 +103,8 @@ async function fault(action) {
 }
 document.querySelector('#inject-default').onclick = () => fault({fault:'default-route', mode:'inject', label:'デフォルト経路の障害注入'});
 document.querySelector('#inject-static').onclick = () => fault({fault:'static-route', mode:'inject', label:'静的経路の障害注入'});
-document.querySelector('#restore-default').onclick = () => fault({fault:'default-route', mode:'restore', label:'デフォルト経路の復旧'});
-document.querySelector('#restore-static').onclick = () => fault({fault:'static-route', mode:'restore', label:'静的経路の復旧'});
+//document.querySelector('#restore-default').onclick = () => fault({fault:'default-route', mode:'restore', label:'デフォルト経路の復旧'});
+//document.querySelector('#restore-static').onclick = () => fault({fault:'static-route', mode:'restore', label:'静的経路の復旧'});
 document.querySelector('#inject-random').onclick = () => fault({fault:'random', mode:'inject', label:'ランダム障害生成'});
 document.querySelector('#check').onclick = async () => {
   result.textContent = '疎通を確認中…';

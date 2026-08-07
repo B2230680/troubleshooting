@@ -130,17 +130,17 @@ async def terminal(websocket: WebSocket, target: str):
                 if data is None:
                     break
 
-                print(f"DEBUG: 1. Received from browser -> {data}")
+               # print(f"DEBUG: 1. Received from browser -> {data}")
 
-                #docker_socket.sendall(data)
+               # docker_socket.sendall(data)
                 if hasattr(docker_socket, "_sock"):
                      docker_socket._sock.sendall(data)
                 else:
                      docker_socket.wirte(data)
 
-                print("DEBUG: 2. Write completed")
+               # print("DEBUG: 2. Write completed")
         except OSError:
-            print(f"DEBUG: Error in write_to_container: {e}")
+           # print(f"DEBUG: Error in write_to_container: {e}")
             pass
 
     threading.Thread(target=read_from_container, daemon=True).start()
