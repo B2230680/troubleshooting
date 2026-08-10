@@ -8,14 +8,34 @@ let terminalSocket;
 const decoder = new TextDecoder();
 //const ansiUp = new AnsiUp();
 
-const explanations = {
-  'ip route': ['経路を確認する', 'ルーティングテーブルを表示します。デフォルトゲートウェイと宛先ネットワークへの経路を確認します。'],
-  'ping': ['IP 疎通を確認する', 'ICMP で宛先 IP への到達性を確認します。名前解決を除外した IP レベルの切り分けに使えます。'],
-  'traceroute': ['経路を追跡する', 'パケットが通るルータを順に表示します。どこで通信が途切れるかを特定できます。'],
-  'dig': ['DNS を確認する', '名前から IP アドレスを引けるかを確認します。client1 は DNS サーバー 192.168.30.30 を使います。'],
-  'curl': ['HTTP を確認する', '名前解決後に Web サーバーまで到達し、HTTP 応答を得られるか確認します。'],
-  'vtysh': ['ルータの経路を確認する', 'FRRouting のルーティング情報を確認・修正するためのコマンドです。'],
-};
+const commandHelp = window.commandHelp || [];
+
+function showCommandHelp(item) {
+  document.querySelector('#command-title').textContent = item.title;
+  const helpContent = document.querySelector('#help-content');
+  helpContent.replaceChildren();
+  const commandCode = document.createElement('code');
+  commandCode.textContent = item.command;
+  const description = document.createElement('p');
+  description.textContent = item.description;
+  helpContent.append(commandCode, description);
+}
+
+function setupQuickCommands() {
+  const quickCommands = document.querySelector('.quick-commands');
+  commandHelp.forEach(item => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = item.label;
+    button.addEventListener('click', () => {
+      showCommandHelp(item);
+      command.value = item.command;
+      command.focus();
+    });
+    quickCommands.append(button);
+  });
+  if (commandHelp[0]) showCommandHelp(commandHelp[0]);
+}
 
 function append(text) {
   //const html = ansiUp.ansi_to_html(text);
@@ -78,16 +98,7 @@ target.addEventListener('change', () => {
   connectTerminal();
 });
 document.querySelector('#clear').onclick = () => { output.textContent = ''; command.focus(); };
-document.querySelectorAll('[data-command]').forEach(button => button.onclick = () => {
-  const value = button.dataset.command;
-  const key = Object.keys(explanations).find(k => value.startsWith(k));
-  if (key) {
-    document.querySelector('#command-title').textContent = explanations[key][0];
-    document.querySelector('#help-content').innerHTML = `<code>${value}</code><p>${explanations[key][1]}</p>`;
-  }
-  command.value = value;
-  command.focus();
-});
+setupQuickCommands();
 
 async function fault(action) {
   try {

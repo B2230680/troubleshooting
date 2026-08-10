@@ -15,9 +15,9 @@
       </div>
       <p class="legend"><span></span> 通信経路　 Router1 は internet (10.0.10.0/24) にも接続</p>
     </section>
-    <section class="panel help"><div class="panel-head"><h2>コマンド解説</h2><span id="command-title">経路を確認する</span></div>
-      <div id="help-content"><code>ip route</code><p>ルーティングテーブルを表示します。まずデフォルトゲートウェイと宛先ネットワークへの経路を確認します。</p></div>
-      <div class="quick-commands"><button data-command="ip route">ip route</button><button data-command="ping -c 3 192.168.30.40">ping Web</button><button data-command="traceroute -n 192.168.30.40">traceroute</button><button data-command="dig www.example.test">dig DNS</button><button data-command="curl -i http://www.example.test/">curl Web</button><button data-command="vtysh -c 'show ip route'">FRR route</button></div>
+    <section class="panel help"><div class="panel-head"><h2>コマンド解説</h2><span id="command-title"></span></div>
+      <div id="help-content"></div>
+      <div class="quick-commands"></div>
     </section>
     <section class="panel menu"><div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div>
       <div class="actions"><button class="primary" id="check">通信疎通を確認</button><button id="inject-default">障害: デフォルト経路を切断</button><button id="inject-static">障害: Router3 の静的経路を破損</button><!-- <button id="restore-default">デフォルト経路を復旧</button><button id="restore-static">静的経路を復旧</button> --><button id="inject-random">ランダム障害生成</button></div>
@@ -28,5 +28,6 @@
       <pre id="output" aria-live="polite"></pre><form id="terminal-form"><span id="prompt">client1 $</span><input id="command" autocomplete="off" placeholder="例: ip route（Ctrl+C / Ctrl+D 対応）" autofocus><button>送信</button></form>
     </section>
   </main>
+  <script src="/static/command-help.js"></script>
   <script src="/static/app.js"></script>
 </body></html>
