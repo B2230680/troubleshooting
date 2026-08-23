@@ -8,8 +8,8 @@ window.commandHelp = [
     description: 'ルーティングテーブルを表示します。デフォルトゲートウェイと宛先ネットワークへの経路を確認します。',
   },
   {
-    command: 'ping -c 3 192.168.30.40',
-    label: 'ping Web',
+    command: 'ping 192.168.30.40',
+    label: 'ping',
     title: 'IP 疎通を確認する',
     description: 'ICMP で宛先 IP への到達性を確認します。名前解決を除外した IP レベルの切り分けに使えます。',
   },
@@ -21,7 +21,7 @@ window.commandHelp = [
   },
   {
     command: 'dig www.example.test',
-    label: 'dig DNS',
+    label: 'dig',
     title: 'DNS を確認する',
     description: '名前から IP アドレスを引けるかを確認します。client1 は DNS サーバー 192.168.30.30 を使います。',
   },
@@ -36,5 +36,11 @@ window.commandHelp = [
     label: 'FRR route',
     title: 'ルータの経路を確認する',
     description: 'FRRouting のルーティング情報を確認・修正するためのコマンドです。',
+  },
+ {
+    command: 'show ip route',
+    label: 'show ip route',
+    title: 'ルータの経路設定を確認する。',
+    description: 'ルータに設定されているルーティングテーブルを表示します。',
   },
 ];

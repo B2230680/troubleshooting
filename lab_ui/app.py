@@ -11,8 +11,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 import random
+import subprocess
 
-FAULTS = ("default-route", "static-route")
+FAULTS = ("default-route", "static-route", "server-down")
 
 app = FastAPI(title="Network Troubleshooting Lab")
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -38,8 +39,8 @@ def run(target: str, command: str) -> dict:
     if target not in LAB_CONTAINERS:
         raise HTTPException(400, "対象コンテナが不正です")
     command = command.strip()
-    if not command.startswith(READ_ONLY_PREFIXES + MUTATING_PREFIXES):
-        raise HTTPException(400, "この演習では ip / ping / traceroute / dig / curl / vtysh などのネットワーク診断コマンドを使用してください")
+    #if not command.startswith(READ_ONLY_PREFIXES + MUTATING_PREFIXES):
+        #raise HTTPException(400, "この演習では ip / ping / traceroute / dig / curl / vtysh などのネットワーク診断コマンドを使用してください")
     try:
         result = client().containers.get(target).exec_run(["/bin/sh", "-lc", command], demux=True)
     except NotFound as exc:
@@ -51,9 +52,17 @@ def run(target: str, command: str) -> dict:
 
 def inject_known_fault(fault: str) -> dict:
     if fault == "default-route":
+        #print(subprocess.run([str(Path(f"../faults/default_route/inject.sh"))], check=True))
         return run("client1", "ip route del default")
+        #script_path = "./faults/default_route/inject.sh"
+        #return subprocess.run([script_path], check=True)
+
     if fault == "static-route":
         return run("router3", "vtysh -c 'configure terminal' -c 'no ip route 192.168.20.0/24 192.168.13.10' -c 'ip route 192.168.20.0/24 192.168.13.100'")
+
+    if fault == "server-down":
+       return run("web", "nginx -s stop")
+
     raise HTTPException(404, "不明な障害です")
 
 

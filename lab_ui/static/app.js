@@ -10,6 +10,24 @@ const decoder = new TextDecoder();
 
 const commandHelp = window.commandHelp || [];
 
+
+const hamburgerButton = document.querySelector('.hamburger-menu');
+const menu = document.querySelector('.menu');
+
+hamburgerButton.addEventListener('click', () => {
+  const isExpanded =
+    hamburgerButton.getAttribute('aria-expanded') === 'true';
+
+  hamburgerButton.setAttribute(
+    'aria-expanded',
+    !isExpanded
+  );
+
+  hamburgerButton.classList.toggle('is-active');
+  menu.classList.toggle('is-active');
+});
+
+
 function showCommandHelp(item) {
   document.querySelector('#command-title').textContent = item.title;
   const helpContent = document.querySelector('#help-content');
@@ -112,10 +130,11 @@ async function fault(action) {
     result.className = 'result fail';
   }
 }
-document.querySelector('#inject-default').onclick = () => fault({fault:'default-route' , mode:'inject', label:'デフォルト経路の障害注入'});
-document.querySelector('#inject-static').onclick = () => fault({fault:'static-route', mode:'inject', label:'静的経路の障害注入'});
+document.querySelector('#inject-default').onclick = () => fault({fault:'default-route' , mode:'inject', label:'デフォルトルート障害'});
+document.querySelector('#inject-static').onclick = () => fault({fault:'static-route', mode:'inject', label:'スタティックルート障害'});
 //document.querySelector('#restore-default').onclick = () => fault({fault:'default-route', mode:'restore', label:'デフォルト経路の復旧'});
 //document.querySelector('#restore-static').onclick = () => fault({fault:'static-route', mode:'restore', label:'静的経路の復旧'});
+document.querySelector('#inject-server').onclick = () => fault({fault:'server-down' , mode:'inject', label:'サーバダウン'});
 document.querySelector('#inject-random').onclick = () => fault({fault:'random', mode:'inject', label:'ランダム障害生成'});
 document.querySelector('#check').onclick = async () => {
   result.textContent = '疎通を確認中…';

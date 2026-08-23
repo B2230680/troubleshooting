@@ -7,25 +7,88 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <header><div><span class="eyebrow">DOCKER NETWORK LAB</span><h1>ネットワーク障害対応演習</h1></div><div id="lab-status">状態を取得中…</div></header>
+  <header class="header">
+   <div>
+    <!-- <span class="eyebrow">DOCKER NETWORK LAB</span> -->
+     <h1>トラブルシューティング演習</h1>
+   </div>
+   <div id="lab-status">状態を取得中…</div>
+
+   <button class="hamburger-menu" aria-label="メニューを開く" aria-expanded="false" aria-controls="global-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+   </button>
+
+   <nav id="global-menu" class="menu">
+     <div class="actions">
+      <button class="primary" id="check">通信疎通を確認</button>
+      <button id="inject-default">障害:default route</button>
+      <button id="inject-static">障害:static route</button>
+      <button id="inject-server">障害:server down</button>
+      <button id="inject-random">ランダム障害生成</button>
+     </div>
+   </nav>
+
+  </header>
   <main class="dashboard">
-    <section class="panel topology"><div class="panel-head"><h2>ネットワーク構成図</h2><!-- <span>client1 から www.example.test へ</span> --></div>
-      <div class="diagram" aria-label="ネットワーク構成図">
-        <div class="node client">client1<small>192.168.20.20</small></div><i></i><div class="node router">Router2<small>192.168.20.10 / .12.20</small></div><i></i><div class="node router core">Router1<small>.12.10 / .13.10</small></div><i></i><div class="node router">Router3<small>.13.20 / .30.10</small></div><i></i><div class="server-stack"><div class="node service">DNS<small>.30.30</small></div><div class="node service">Web<small>www.example.test<br>.30.40</small></div><div class="node service">client2<small>.30.20</small></div></div>
+    <section class="panel topology">
+     <div class="panel-head">
+      <h2>ネットワーク構成図</h2><!-- <span>client1 から www.example.test へ</span> -->
+     </div>
+     <div class="diagram" aria-label="ネットワーク構成図">
+       <div class="node client">client1<p>192.168.20.20</p></div><i></i>
+       <div class="node router">Router2<small>192.168.20.10 / 192.168.12.20</small></div><i></i>
+       <div class="node router core">Router1<small>.192.168.12.10 / 192.168.13.10</small></div><i></i>
+       <div class="node router">Router3<small>192.168.13.20 / 192.168.30.10</small></div><i></i>
+       <div class="server-stack">
+        <div class="node service">DNS<small>192.168.30.30</small></div>
+        <div class="node service">Web<small>www.example.test<br>192.168.30.40</small></div>
+        <div class="node service">client2<small>192.168.30.20</small></div>
+       </div>
       </div>
-      <p class="legend"><span></span> 通信経路　 Router1 は internet (10.0.10.0/24) にも接続</p>
+      <!-- <p class="legend"><span></span> 通信経路　 Router1 は internet (10.0.10.0/24) にも接続</p> -->
     </section>
-    <section class="panel help"><div class="panel-head"><h2>コマンド解説</h2><span id="command-title"></span></div>
+    <section class="panel help">
+     <div class="panel-head">
+      <h2>コマンド解説</h2><span id="command-title"></span>
+     </div>
       <div id="help-content"></div>
       <div class="quick-commands"></div>
     </section>
-    <section class="panel menu"><div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div>
-      <div class="actions"><button class="primary" id="check">通信疎通を確認</button><button id="inject-default">障害: デフォルト経路を切断</button><button id="inject-static">障害: Router3 の静的経路を破損</button><!-- <button id="restore-default">デフォルト経路を復旧</button><button id="restore-static">静的経路を復旧</button> --><button id="inject-random">ランダム障害生成</button></div>
+    <!-- <section class="panel menu">
+     <div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div>
+      <div class="actions">
+       <button class="primary" id="check">通信疎通を確認</button>
+       <button id="inject-default">障害: default route</button>
+       <button id="inject-static">障害: static route</button>
+  <!-- <button id="restore-default">デフォルト経路を復旧</button>
+       <button id="restore-static">静的経路を復旧</button> ->
+       <button id="inject-server">障害：server down</button>
+       <button id="inject-random">ランダム障害生成</button>
+      </div>
       <div id="result" class="result">障害を修正後、「通信疎通を確認」を実行してください。</div>
       <p class="notice">合格条件: DNS 名解決と <code>www.example.test</code> への HTTP 接続に成功すること。</p>
-    </section>
-    <section class="panel terminal"><div class="terminal-bar"><label>接続先 <select id="target"><option>client1</option><option>client2</option><option>router1</option><option>router2</option><option>router3</option><option>dns</option><option>web</option></select></label><span id="target-state"></span><button id="clear" class="small">クリア</button></div>
-      <pre id="output" aria-live="polite"></pre><form id="terminal-form"><span id="prompt">client1 $</span><input id="command" autocomplete="off" placeholder="例: ip route（Ctrl+C / Ctrl+D 対応）" autofocus><button>送信</button></form>
+    </section> -->
+    <section class="panel terminal">
+     <div class="terminal-bar">
+      <label>接続先 <select id="target">
+       <option>client1</option>
+       <option>client2</option>
+       <option>router1</option>
+       <option>router2</option>
+       <option>router3</option>
+       <option>dns</option>
+       <option>web</option></select>
+      </label><span id="target-state"></span>
+       <button id="clear" class="small">クリア</button>
+     </div>
+      <pre id="output" aria-live="polite"></pre>
+       <form id="terminal-form">
+        <span id="prompt">client1 $</span>
+        <input id="command" autocomplete="off" placeholder="例: ip route （Ctrl + C 対応）" autofocus>
+        <button>送信</button>
+       </form>
     </section>
   </main>
   <script src="/static/command-help.js"></script>
