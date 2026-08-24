@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+
   <header class="header">
    <div>
     <!-- <span class="eyebrow">DOCKER NETWORK LAB</span> -->
@@ -30,9 +31,10 @@
        <button id="inject-random">ランダム障害生成</button>
       </div>
    </nav>
-
   </header>
+
   <main class="dashboard">
+   <div class="left-area">
     <section class="panel topology">
      <div class="panel-head">
       <h2>ネットワーク構成図</h2><!-- <span>client1 から www.example.test へ</span> -->
@@ -50,6 +52,7 @@
       </div>
       <!-- <p class="legend"><span></span> 通信経路　 Router1 は internet (10.0.10.0/24) にも接続</p> -->
     </section>
+
     <section class="panel help">
      <div class="panel-head">
       <h2>コマンド解説</h2><span id="command-title"></span>
@@ -57,7 +60,10 @@
       <div id="help-content"></div>
       <div class="quick-commands"></div>
     </section>
-    <section class="panel menu">
+   </div>
+
+    <div class="right-area">
+    <section class="panel check">
      <!-- <div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div> -->
       <div class="actions">
        <button class="primary" id="check">通信疎通を確認</button>
@@ -71,6 +77,7 @@
       <div id="result" class="result">障害を修正後、「通信疎通を確認」を実行してください。</div>
       <p class="notice">合格条件: DNS 名解決と <code>www.example.test</code> への HTTP 接続に成功すること。</p>
     </section>
+
     <section class="panel terminal">
      <div class="terminal-bar">
       <label>接続先 <select id="target">
@@ -91,7 +98,9 @@
         <button>送信</button>
        </form>
     </section>
+    </div>
   </main>
+
   <script src="/static/command-help.js"></script>
   <script src="/static/app.js"></script>
 </body></html>
