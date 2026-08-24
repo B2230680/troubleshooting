@@ -82,14 +82,32 @@ h1 {
 .menu {
   display: none;
   position: absolute;
-  top: 50px;
-  right: 0;
+  top: 100px;
+  right: 12;
   min-width: 280px;
   background-color: #fff;
   border: 1px solid #ddd;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   box-sizing:border-box;
 }
+
+#global-menu {
+    position: absolute;
+    top: 110%;
+    right: 10px;
+    min-width: 280px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+#global-menu .panel-head h2 {
+    color: #222;
+}
+
 
 .menu ul {
   margin: 0;
@@ -183,7 +201,7 @@ h1 {
 
 .panel-head h2 {
     margin:0;
-    font-size:16px
+    font-size:18px
  }
 
 .panel-head span {
@@ -348,11 +366,11 @@ button {
     width:100%;
     min-height:38px;
     flex:none;
-    color:#33424c;
-    border:1px solid #cbd5db;
+    border:1px solid #b9d9e5;
+    color:#17627e;
+    background:#effbff;
     border-radius:4px;
-    background:#fff;
-    font-size:12px
+    font-size:16px
  }
 
 .actions .primary {

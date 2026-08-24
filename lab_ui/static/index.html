@@ -21,13 +21,14 @@
    </button>
 
    <nav id="global-menu" class="menu">
-     <div class="actions">
-      <button class="primary" id="check">通信疎通を確認</button>
-      <button id="inject-default">障害:default route</button>
-      <button id="inject-static">障害:static route</button>
-      <button id="inject-server">障害:server down</button>
-      <button id="inject-random">ランダム障害生成</button>
-     </div>
+      <div class="actions">
+       <div class="panel-head"><h2>演習メニュー</h2></div>
+       <!-- <button class="primary" id="check">通信疎通を確認</button> -->
+       <button id="inject-default">障害:default route</button>
+       <button id="inject-static">障害:static route</button>
+       <button id="inject-server">障害:server down</button>
+       <button id="inject-random">ランダム障害生成</button>
+      </div>
    </nav>
 
   </header>
@@ -56,20 +57,20 @@
       <div id="help-content"></div>
       <div class="quick-commands"></div>
     </section>
-    <!-- <section class="panel menu">
-     <div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div>
+    <section class="panel menu">
+     <!-- <div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div> -->
       <div class="actions">
        <button class="primary" id="check">通信疎通を確認</button>
-       <button id="inject-default">障害: default route</button>
+       <!-- <button id="inject-default">障害: default route</button>
        <button id="inject-static">障害: static route</button>
   <!-- <button id="restore-default">デフォルト経路を復旧</button>
        <button id="restore-static">静的経路を復旧</button> ->
        <button id="inject-server">障害：server down</button>
-       <button id="inject-random">ランダム障害生成</button>
+       <button id="inject-random">ランダム障害生成</button> -->
       </div>
       <div id="result" class="result">障害を修正後、「通信疎通を確認」を実行してください。</div>
       <p class="notice">合格条件: DNS 名解決と <code>www.example.test</code> への HTTP 接続に成功すること。</p>
-    </section> -->
+    </section>
     <section class="panel terminal">
      <div class="terminal-bar">
       <label>接続先 <select id="target">
