@@ -209,8 +209,8 @@ async def terminal(websocket: WebSocket, target: str):
 @app.post("/api/connectivity-check")
 def connectivity_check():
     print("test2")
-    dns = run("client1", "dig +short www.example.test @192.168.30.30")
-    http = run("client1", "curl -fsS --connect-timeout 3 http://www.example.test/")
+    dns = run("client1", "dig +time=2 +tries=1 +short www.example.test @192.168.30.30")
+    http = run("client1", "curl -fsS --connect-timeout 2 http://www.example.test/")
     dns_ok = "192.168.30.40" in dns["output"] and dns["exit_code"] == 0
     http_ok = "Network Troubleshooting Training" in http["output"] and http["exit_code"] == 0
     return {"passed": dns_ok and http_ok, "dns": dns, "http": http}
