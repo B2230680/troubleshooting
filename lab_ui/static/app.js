@@ -184,6 +184,7 @@ document.querySelector('#inject-static').onclick = () => fault({fault:'static-ro
 //document.querySelector('#restore-default').onclick = () => fault({fault:'default-route', mode:'restore', label:'デフォルト経路の復旧'});
 //document.querySelector('#restore-static').onclick = () => fault({fault:'static-route', mode:'restore', label:'静的経路の復旧'});
 document.querySelector('#inject-server').onclick = () => fault({fault:'server-down' , mode:'inject', label:'サーバダウン'});
+document.querySelector('#inject-interface').onclick = () => fault({fault:'interface-down' , mode:'inject', label:'インターフェースダウン'});
 document.querySelector('#inject-random').onclick = () => fault({fault:'random', mode:'inject', label:'ランダム障害生成'});
 
 document.querySelector('#resultCheck').onclick = async () => {

@@ -13,15 +13,15 @@ from pydantic import BaseModel, Field
 import random
 import subprocess
 
-FAULTS = ("default-route", "static-route", "server-down")
+FAULTS = ("default-route", "static-route", "server-down", "interface-down")
 
 app = FastAPI(title="Network Troubleshooting Lab")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 LAB_CONTAINERS = {"client1", "client2", "router1", "router2", "router3", "dns", "web"}
 LAB_ROUTERS = {"router1" , "router2" , "router3"}
-READ_ONLY_PREFIXES = ("ip ", "ping ", "traceroute", "tracepath", "dig ", "nslookup", "curl ", "cat ", "hostname", "vtysh", "ss ", "netstat", "tcpdump")
-MUTATING_PREFIXES = ("ip route ", "ip link ", "vtysh ")
+#READ_ONLY_PREFIXES = ("ip ", "ping ", "traceroute", "tracepath", "dig ", "nslookup", "curl ", "cat ", "hostname", "vtysh", "ss ", "netstat", "tcpdump")
+#MUTATING_PREFIXES = ("ip route ", "ip link ", "vtysh ")
 
 
 class CommandRequest(BaseModel):
@@ -64,12 +64,19 @@ def inject_known_fault(fault: str) -> dict:
         #return subprocess.run([script_path], check=True)
 
     if fault == "static-route":
-        if ran_num == 1:
+        if ran_num == 0:
           return run("router3", "vtysh -c 'configure terminal' -c 'no ip route 192.168.20.0/24 192.168.13.10' -c 'ip route 192.168.20.0/24 192.168.13.100'")
         else:
           return run("router2", "vtysh -c 'configure terminal' -c 'no ip route 192.168.30.0/24 192.168.12.10'")
+
     if fault == "server-down":
-       return run("web", "nginx -s stop")
+        return run("web", "nginx -s stop")
+
+    if fault == "interface-down":
+        if ran_num == 0:
+          return run("router3", "vtysh -c 'configure terminal' -c 'interface eth0' -c 'shutdown'")
+        else:
+          return run("router2", "vtysh -c 'configure terminal' -c 'interface eth1' -c 'shutdown'")
 
     raise HTTPException(404, "不明な障害です")
 
@@ -218,10 +225,10 @@ def inject_fault(fault: str):
     return {"fault": fault, **inject_known_fault(fault)}
 
 
-@app.post("/api/fault/{fault}/restore")
-def restore_fault(fault: str):
-    if fault == "default-route":
-        return run("client1", "ip route replace default via 192.168.20.10")
-    if fault == "static-route":
-        return run("router3", "vtysh -c 'configure terminal' -c 'no ip route 192.168.20.0/24 192.168.13.100' -c 'ip route 192.168.20.0/24 192.168.13.10'")
-    raise HTTPException(404, "不明な障害です")
+#@app.post("/api/fault/{fault}/restore")
+#def restore_fault(fault: str):
+#    if fault == "default-route":
+#        return run("client1", "ip route replace default via 192.168.20.10")
+#    if fault == "static-route":
+#        return run("router3", "vtysh -c 'configure terminal' -c 'no ip route 192.168.20.0/24 192.168.13.100' -c 'ip route 192.168.20.0/24 192.168.13.10'")
+#    raise HTTPException(404, "不明な障害です")
