@@ -5,6 +5,7 @@ COPY frr-static.conf /frr-static.conf
 COPY iproute.sh /iproute.sh
 COPY start.sh /start.sh
 
+RUN mkdir -p /etc/frr && touch /etc/frr/vtysh.conf
 RUN chmod +x /iproute.sh /start.sh
 
 CMD ["/start.sh"]

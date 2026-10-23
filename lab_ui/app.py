@@ -19,6 +19,7 @@ app = FastAPI(title="Network Troubleshooting Lab")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 LAB_CONTAINERS = {"client1", "client2", "router1", "router2", "router3", "dns", "web"}
+LAB_ROUTERS = {"router1" , "router2" , "router3"}
 READ_ONLY_PREFIXES = ("ip ", "ping ", "traceroute", "tracepath", "dig ", "nslookup", "curl ", "cat ", "hostname", "vtysh", "ss ", "netstat", "tcpdump")
 MUTATING_PREFIXES = ("ip route ", "ip link ", "vtysh ")
 
@@ -106,9 +107,15 @@ async def terminal(websocket: WebSocket, target: str):
     await websocket.accept()
     try:
         container = client().containers.get(target)
+
+        if target in LAB_ROUTERS:
+            cmd_type = ["vtysh"]
+        else:
+            cmd_type = ["/bin/sh", "-i"]
         exec_id = container.client.api.exec_create(
             container.id,
-            cmd=["/bin/sh", "-i"],
+            #cmd=["/bin/sh", "-i"],
+            cmd=cmd_type,
             stdin=True,
             tty=True,
         )["Id"]
