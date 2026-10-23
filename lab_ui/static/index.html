@@ -40,25 +40,53 @@
       <h2>ネットワーク構成図</h2><!-- <span>client1 から www.example.test へ</span> -->
      </div>
      <div class="diagram" aria-label="ネットワーク構成図">
+      <div class="subnet">
+       <div class="subnet-title">192.168.0.0/16</div>
        <div class="node client">client1<p>192.168.20.20</p></div><i></i>
-       <div class="node router">Router2<small>192.168.20.10 / 192.168.12.20</small></div><i></i>
-       <div class="node router core">Router1<small>.192.168.12.10 / 192.168.13.10</small></div><i></i>
-       <div class="node router">Router3<small>192.168.13.20 / 192.168.30.10</small></div><i></i>
+        <!-- <div class="fukidashi">
+         <div>フキダシ</div>
+        </div> -->
+       <div class="node router">Router2<p>～.20.10 | ～.12.20</p></div><i></i>
+       <div class="node router core">Router1<p>～.12.10 | ～.13.10</p></div><i></i>
+       <div class="node router">Router3<p>～.13.20 | ～.30.10</p></div><i></i>
        <div class="server-stack">
-        <div class="node service">DNS<small>192.168.30.30</small></div>
-        <div class="node service">Web<small>www.example.test<br>192.168.30.40</small></div>
-        <div class="node service">client2<small>192.168.30.20</small></div>
+        <div class="node service">DNS<p>192.168.30.30</p></div>
+        <div class="node service">example.test<p>192.168.30.40</p></div>
+        <div class="node service">client2<p>192.168.30.20</p></div>
        </div>
+      </div>
       </div>
       <!-- <p class="legend"><span></span> 通信経路　 Router1 は internet (10.0.10.0/24) にも接続</p> -->
     </section>
 
     <section class="panel help">
      <div class="panel-head">
-      <h2>コマンド解説</h2><span id="command-title"></span>
+      <h2>コマンド解説</h2>
+       <!-- <span id="command-title"></span> -->
      </div>
-      <div id="help-content"></div>
-      <div class="quick-commands"></div>
+     <div class="command-group">
+      <div class="commands-type">・現状把握</div>
+      <div id="situation" class="quick-commands"></div>
+     </div>
+
+     <div class="command-group">
+      <div class="commands-type">・原因の調査</div>
+      <div id="survey" class="quick-commands"></div>
+     </div>
+
+     <div class="command-group">
+      <div class="commands-type">・原因の修正</div>
+      <div id="fix" class="quick-commands"></div>
+     </div>
+
+     <div class="command-group">
+      <div class="commands-type">・復旧確認</div>
+      <div id="check" class="quick-commands"></div>
+     </div>
+      <div id="help-popup">
+       <button id="help-close">×</button>
+       <div id="help-popup-content"></div>
+      </div>
     </section>
    </div>
 
@@ -66,7 +94,7 @@
     <section class="panel check">
      <!-- <div class="panel-head"><h2>演習メニュー</h2><span>操作は対象コンテナに即時反映</span></div> -->
       <div class="actions">
-       <button class="primary" id="check">通信疎通を確認</button>
+       <button class="primary" id="resultCheck">通信疎通を確認</button>
        <!-- <button id="inject-default">障害: default route</button>
        <button id="inject-static">障害: static route</button>
   <!-- <button id="restore-default">デフォルト経路を復旧</button>
@@ -75,7 +103,7 @@
        <button id="inject-random">ランダム障害生成</button> -->
       </div>
       <div id="result" class="result">障害を修正後、「通信疎通を確認」を実行してください。</div>
-      <p class="notice">合格条件: DNS 名解決と <code>www.example.test</code> への HTTP 接続に成功すること。</p>
+      <p class="notice">合格条件: DNS 名前解決と <code>example.test</code> への接続に成功すること</p>
     </section>
 
     <section class="panel terminal">

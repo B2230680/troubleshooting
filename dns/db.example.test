@@ -11,4 +11,5 @@ $TTL 86400
 @       IN NS dns.example.test.
 
 dns     IN A 192.168.30.30
+@       IN A 192.168.30.40
 www     IN A 192.168.30.40

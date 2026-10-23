@@ -29,30 +29,74 @@ hamburgerButton.addEventListener('click', () => {
 
 
 function showCommandHelp(item) {
-  document.querySelector('#command-title').textContent = item.title;
-  const helpContent = document.querySelector('#help-content');
+  //document.querySelector('#command-title').textContent = item.title;
+  const helpContent = document.querySelector('#help-popup-content');
   helpContent.replaceChildren();
   const commandCode = document.createElement('code');
   commandCode.textContent = item.command;
   const description = document.createElement('p');
-  description.textContent = item.description;
+  //description.textContent = item.description;
+  description.innerHTML = item.description;
+
   helpContent.append(commandCode, description);
+  document.getElementById("help-popup").classList.add("show");
 }
 
+
+document.getElementById("help-close").addEventListener("click", () => {
+  document.getElementById("help-popup").classList.remove("show");
+});
+
+
 function setupQuickCommands() {
-  const quickCommands = document.querySelector('.quick-commands');
+  //const quickCommands = document.querySelector('.quick-commands');
+  //const linuxCommands = document.querySelector('#linux-commands');
+  //const routerCommands = document.querySelector('#router-commands');
+  const situationCommands = document.querySelector('#situation');
+  const surveyCommands = document.querySelector('#survey');
+  const fixCommands = document.querySelector('#fix');
+  const checkCommands = document.querySelector('#check');
+
+  //linuxCommands.replaceChildren();
+  //routerCommands.replaceChildren();
+  situationCommands.replaceChildren();
+  surveyCommands.replaceChildren();
+  fixCommands.replaceChildren();
+  checkCommands.replaceChildren();
+
   commandHelp.forEach(item => {
+   const createButton = () => {
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = item.label;
+
     button.addEventListener('click', () => {
       showCommandHelp(item);
       command.value = item.command;
       command.focus();
     });
-    quickCommands.append(button);
+    return button;
+   };
+
+    //quickCommands.append(button);
+    if (item.type?.includes('situation')) {
+      situationCommands.appendChild(createButton());
+    }
+
+    if (item.type?.includes('survey')) {
+      surveyCommands.appendChild(createButton());
+    }
+
+    if (item.type?.includes('fix')) {
+      fixCommands.appendChild(createButton());
+    }
+
+    if (item.type?.includes('check')) {
+      checkCommands.appendChild(createButton());
+    }
   });
-  if (commandHelp[0]) showCommandHelp(commandHelp[0]);
+
+  //if (commandHelp[0]) showCommandHelp(commandHelp[0]);
 }
 
 function append(text) {
@@ -102,6 +146,7 @@ document.querySelector('#terminal-form').addEventListener('submit', event => {
   if (value) sendTerminal(`${value}\n`);
   command.value = '';
 });
+
 command.addEventListener('keydown', event => {
   if (!event.ctrlKey) return;
   const controls = {c: '\x03', d: '\x04', l: '\x0c'};
@@ -111,10 +156,13 @@ command.addEventListener('keydown', event => {
     sendTerminal(control);
   }
 });
+
 target.addEventListener('change', () => {
   prompt.textContent = `${target.value} $`;
   connectTerminal();
+
 });
+
 document.querySelector('#clear').onclick = () => { output.textContent = ''; command.focus(); };
 setupQuickCommands();
 
@@ -130,25 +178,31 @@ async function fault(action) {
     result.className = 'result fail';
   }
 }
+
 document.querySelector('#inject-default').onclick = () => fault({fault:'default-route' , mode:'inject', label:'デフォルトルート障害'});
 document.querySelector('#inject-static').onclick = () => fault({fault:'static-route', mode:'inject', label:'スタティックルート障害'});
 //document.querySelector('#restore-default').onclick = () => fault({fault:'default-route', mode:'restore', label:'デフォルト経路の復旧'});
 //document.querySelector('#restore-static').onclick = () => fault({fault:'static-route', mode:'restore', label:'静的経路の復旧'});
 document.querySelector('#inject-server').onclick = () => fault({fault:'server-down' , mode:'inject', label:'サーバダウン'});
 document.querySelector('#inject-random').onclick = () => fault({fault:'random', mode:'inject', label:'ランダム障害生成'});
-document.querySelector('#check').onclick = async () => {
+
+document.querySelector('#resultCheck').onclick = async () => {
   result.textContent = '疎通を確認中…';
   result.className = 'result';
+
+  console.log("test1");
+
   try {
     const data = await api('/api/connectivity-check', {method:'POST'});
     append(`\n[疎通確認: DNS]\n${data.dns.output}\n[疎通確認: HTTP]\n${data.http.output}\n`);
-    result.textContent = data.passed ? '演習完了: DNS と Web サーバーへの通信を確認しました。' : '未完了: DNS または HTTP 通信に失敗しています。診断して障害を修正してください。';
+    result.textContent = data.passed ? '演習完了: Web サーバーへの疎通を確認しました。' : '未完了: DNS名前解決 または HTTP 通信に問題があります。原因を診断して、必要な設定修正をしてください。';
     result.className = `result ${data.passed ? 'success' : 'fail'}`;
   } catch(e) {
     result.textContent = e.message;
     result.className = 'result fail';
   }
 };
+
 async function refreshStatus() {
   try {
     const states = await api('/api/status');
@@ -158,6 +212,7 @@ async function refreshStatus() {
     document.querySelector('#lab-status').textContent = 'Docker 接続待機中';
   }
 }
+
 connectTerminal();
 refreshStatus();
 setInterval(refreshStatus, 5000);

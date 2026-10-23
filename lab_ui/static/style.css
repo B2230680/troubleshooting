@@ -186,7 +186,7 @@ h1 {
     min-width:0;
     min-height:0;
     display:grid;
-    grid-template-rows:1fr 1fr;
+    grid-template-rows:2fr 3fr;
     gap:18px;
 }
 
@@ -220,7 +220,7 @@ h1 {
 
 .panel-head h2 {
     margin:0;
-    font-size:18px
+    font-size:22px
  }
 
 .panel-head span {
@@ -241,21 +241,43 @@ h1 {
     gap:7px; min-height:214px
  }
 
+.subnet {
+    min-width:600px;
+    border:2px solid #000;
+    box-sizing: border-box;
+    display:flex;
+    align-items:center;
+    gap: 3px;
+    padding:12px;
+    border-radius:6px;
+    position:relative;
+    top:-20px;
+}
+
+.subnet-title {
+    position:absolute;
+    top:0px;
+    left:50;
+    font-size:18px;
+}
+
 .node {
     text-align:center;
     min-width:84px;
-    padding:10px 8px;
+    width:max-content;
+    flex:0 0 auto;
+    padding:3px 6px;
     border-radius:6px;
     border:2px solid;
-    font:500 12px ui-monospace,monospace;
+    font:500 14px ui-monospace,monospace;
     background:#fff
  }
 
-.node small {
+.node p {
     display:block;
     margin-top:5px;
     color:var(--muted);
-    font-size:9px;
+    font-size:14px;
     line-height:1.3
  }
 
@@ -274,12 +296,12 @@ h1 {
 
 .service {
     border-color:var(--green);
-    padding:7px; min-width:94px
+    padding:3px 6px; min-width:94px
  }
 
 .diagram i {
-    width:20px;
-    height:2px;
+    width:22px;
+    height:5px;
     background:var(--cyan);
     position:relative
  }
@@ -292,6 +314,39 @@ h1 {
     border:4px solid transparent;
     border-left-color:var(--cyan)
  }*/
+
+/*.fukidashi {
+  position: relative;
+  width: fit-content;
+  padding: 12px 16px;
+  border-bottom: 2px solid #333333;
+
+  &::before {
+    content: "";
+    position: absolute;
+    right: -24px;
+    bottom: -13px;
+    width: 30px;
+    height: 2px;
+    box-sizing: border-box;
+    background-color: #333333;
+    rotate: 50deg;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: -23px;
+    bottom: -28px;
+    width: 8px;
+    height: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    background-color: #333333;
+  }
+}*/
+
 
 .server-stack {
     display:flex;
@@ -314,9 +369,10 @@ h1 {
     vertical-align:middle
  }
 
-.help {
+.panel.help {
     grid-column:1;
-    grid-row:2
+    grid-row:2;
+    position:relative; 
  }
 
 .help #help-content {
@@ -324,35 +380,107 @@ h1 {
     min-height:95px
  }
 
+.commands-type {
+    font-size:20px;
+    position:relative;
+    left:20px;
+ }
+
+.command-group + .command-group {
+    margin-top:25px;
+ }
+
 .help code, .notice code {
     color:var(--blue);
-    font:14px ui-monospace,monospace;
+    font:18px ui-monospace,monospace;
     font-weight:500
  }
 
 .help p {
     margin:10px 0 0;
     color:#4b5964;
-    font-size:13px;
-    line-height:1.8
+    font-size:15px;
+    line-height:1.8;
+    white-space:pre-line;
+    max-height:350px;
+    overflow-y:auto;
  }
 
 .quick-commands {
     display:flex;
     flex-wrap:wrap;
     gap:7px;
-    padding:0 20px
- }
+    padding:0 20px;
+    margin-top:10px; 
+}
 
 .quick-commands button {
     border:1px solid #b9d9e5;
     color:#17627e;
     background:#effbff;
     border-radius:4px;
-    padding:7px 9px;
-    font:12px ui-monospace,monospace;
+    padding:8px 10px;
+    font:15px ui-monospace,monospace;
     cursor:pointer
  }
+
+#linux-commands {
+    margin-botton:20px;
+ }
+#help-popup {
+  display: none;
+
+  position: absolute;
+  /*inset: 0;
+  z-index:0;
+  box-sizing: border-box;
+  padding: 20px;*/
+
+  overflow-y: auto;
+  
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  width:auto;
+  height:auto;
+
+  background: #fff;
+  border: 1px solid #ccc;
+  box-sizing:border-box;
+  border-radius: 10px;
+  padding: 30px 45px 20px 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+#help-popup.show {
+  display: block;
+}
+
+#help-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width:32px;
+  height:32px;
+  
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border: none;
+  background: transparent;
+  
+  color:#333;
+  font-size: 40px;
+  line-height: 1;
+  cursor: pointer;
+  z-index:101;
+}
+
+#help-close:hover {
+  color:#f00;
+}
 
 /*.menu {
     grid-column:2;

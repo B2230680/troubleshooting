@@ -51,15 +51,22 @@ def run(target: str, command: str) -> dict:
 
 
 def inject_known_fault(fault: str) -> dict:
+    ran_num = random.randint(0,1)
+
     if fault == "default-route":
+        if ran_num == 0:
         #print(subprocess.run([str(Path(f"../faults/default_route/inject.sh"))], check=True))
-        return run("client1", "ip route del default")
+          return run("client1", "ip route del default")
+        else:
+          return run("router3", "ip route del default")
         #script_path = "./faults/default_route/inject.sh"
         #return subprocess.run([script_path], check=True)
 
     if fault == "static-route":
-        return run("router3", "vtysh -c 'configure terminal' -c 'no ip route 192.168.20.0/24 192.168.13.10' -c 'ip route 192.168.20.0/24 192.168.13.100'")
-
+        if ran_num == 1:
+          return run("router3", "vtysh -c 'configure terminal' -c 'no ip route 192.168.20.0/24 192.168.13.10' -c 'ip route 192.168.20.0/24 192.168.13.100'")
+        else:
+          return run("router2", "vtysh -c 'configure terminal' -c 'no ip route 192.168.30.0/24 192.168.12.10'")
     if fault == "server-down":
        return run("web", "nginx -s stop")
 
@@ -187,6 +194,7 @@ async def terminal(websocket: WebSocket, target: str):
 
 @app.post("/api/connectivity-check")
 def connectivity_check():
+    print("test2")
     dns = run("client1", "dig +short www.example.test @192.168.30.30")
     http = run("client1", "curl -fsS --connect-timeout 3 http://www.example.test/")
     dns_ok = "192.168.30.40" in dns["output"] and dns["exit_code"] == 0
