@@ -65,25 +65,44 @@
       <h2>コマンド解説</h2>
        <!-- <span id="command-title"></span> -->
      </div>
-     <div class="command-group">
-      <div class="commands-type">・現状把握</div>
-      <div id="situation" class="quick-commands"></div>
+
+     <div class="process">
+      <button class="process-button" id="process-situation">現状把握</button>
+      <button class="process-button" id="process-survey">原因の調査</button>
+      <button class="process-button" id="process-fix">原因の修正</button>
+      <button class="process-button" id="process-check">復旧確認</button>
      </div>
 
-     <div class="command-group">
-      <div class="commands-type">・原因の調査</div>
-      <div id="survey" class="quick-commands"></div>
+     <div class="screen">
+      <div class="situation-screen"> 
+       <div class="command-group">
+        <div class="commands-type">・現状把握</div>
+        <div id="situation" class="quick-commands"></div>
+       </div>
+      </div>
+
+     <div class="survey-screen">
+      <div class="command-group">
+       <div class="commands-type">・原因の調査</div>
+       <div id="survey" class="quick-commands"></div>
+      </div>
      </div>
 
-     <div class="command-group">
-      <div class="commands-type">・原因の修正</div>
-      <div id="fix" class="quick-commands"></div>
+     <div class="fix-screen">
+      <div class="command-group">
+       <div class="commands-type">・原因の修正</div>
+       <div id="fix" class="quick-commands"></div>
+      </div>
      </div>
 
-     <div class="command-group">
-      <div class="commands-type">・復旧確認</div>
-      <div id="check" class="quick-commands"></div>
+     <div class="check-screen">
+      <div class="command-group">
+       <div class="commands-type">・復旧確認</div>
+       <div id="check" class="quick-commands"></div>
+      </div>
      </div>
+    </div>
+
       <div id="help-popup">
        <button id="help-close">×</button>
        <div id="help-popup-content"></div>

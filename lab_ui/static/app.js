@@ -99,6 +99,79 @@ function setupQuickCommands() {
   //if (commandHelp[0]) showCommandHelp(commandHelp[0]);
 }
 
+function setupScreenSwitch() {
+  /*const situationButton = document.getElementById("process-situation");
+  const surveyButton = document.getElementById("process-survey");
+  const fixButton = document.getElementById("process-fix");
+  const checkButton = document.getElementById("process-check");
+
+  const situationScreen = document.querySelector("situation-screen");
+  const surveyScreen = document.querySelector("survey-screen");
+  const fixScreen = document.querySelector("fix-screen");
+  const checkScreen = document.querySelector("check-screen");
+  */
+
+  const buttons = [
+    document.getElementById("process-situation"),
+    document.getElementById("process-survey"),
+    document.getElementById("process-fix"),
+    document.getElementById("process-check")
+  ];
+
+  const screens = [
+    document.querySelector(".situation-screen"),
+    document.querySelector(".survey-screen"),
+    document.querySelector(".fix-screen"),
+    document.querySelector(".check-screen")
+  ];
+
+  buttons.forEach((button,index) => {
+    button.addEventListener("click", () => {
+
+      buttons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      screens.forEach(screen => {
+        screen.style.display = "none";
+      });
+
+      screens[index].style.display = "block";
+    });
+  });
+  buttons[0].classList.add("active");
+  screens.forEach((screen,index) => {
+    screen.style.display = index === 0 ? "block" : "none";
+  });
+ }
+  /* situationButton.addEventListener("click", () => {
+   situationButton.classList.add("active");
+   surveyButton.classList.remove("active");
+   fixButton.classList.remove("active");
+   checkButton.classList.remove("active");
+  });
+
+  surveyButton.addEventListener("click", () => {
+   situationButton.classList.remove("active");
+   surveyButton.classList.add("active");
+   fixButton.classList.remove("active");
+   checkButton.classList.remove("active");
+  });
+
+  fixButton.addEventListener("click", () => {
+   situationButton.classList.remove("active");
+   surveyButton.classList.remove("active");
+   fixButton.classList.add("active");
+   checkButton.classList.remove("active");
+  });
+
+  checkButton.addEventListener("click", () => {
+   situationButton.classList.remove("active");
+   surveyButton.classList.remove("active");
+   fixButton.classList.remove("active");
+   checkButton.classList.add("active");
+  });
+ } */
+
 function append(text) {
   //const html = ansiUp.ansi_to_html(text);
   // ANSIエスケープシーケンス（色やカーソル制御コード）を自動で消去する
@@ -165,6 +238,7 @@ target.addEventListener('change', () => {
 
 document.querySelector('#clear').onclick = () => { output.textContent = ''; command.focus(); };
 setupQuickCommands();
+setupScreenSwitch();
 
 async function fault(action) {
   try {
