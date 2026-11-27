@@ -230,19 +230,26 @@ h1 {
 
 .topology {
     grid-column:1;
-    grid-row:1
+    grid-row:1;
+    min-width:0;
+    overflow-x:auto;
  }
 
 .diagram {
     padding:32px 25px 14px;
     display:flex;
     align-items:center;
-    justify-content:center;
-    gap:7px; min-height:214px
+    justify-content:flex-start;
+    gap:7px; 
+    min-height:214px;
+    width:100%;
+    box-sizing:border-box;
  }
 
 .subnet {
     min-width:600px;
+    width:max-content;
+    flex-shrink:0;
     border:2px solid #000;
     box-sizing: border-box;
     display:flex;
@@ -338,7 +345,7 @@ h1 {
 /* 各ノードへの横線 */
 .connection-branch span {
     /*display:block;*/
-    width:22px;
+    width:20px;
     height:5px;
     border-top:4px solid var(--cyan);
     position:relative;
@@ -350,8 +357,8 @@ h1 {
 }
 
 .connection-branch span:nth-child(2) {
-    width:32px;
-    margin-left:-5px;
+    width:25px;
+    margin-left:-3px;
     z-index:1;
 }
 
