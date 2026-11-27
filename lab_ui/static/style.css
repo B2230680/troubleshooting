@@ -247,6 +247,7 @@ h1 {
     box-sizing: border-box;
     display:flex;
     align-items:center;
+    /*align-items:stretch;*/
     gap: 3px;
     padding:12px;
     border-radius:6px;
@@ -305,6 +306,58 @@ h1 {
     background:var(--cyan);
     position:relative
  }
+
+.server-stack {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.connection-branch {
+    position:relative;
+    width:22px;
+    height:100%;
+    min-height:100px;
+    /*align-self:stretch;*/
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    flex-shrink:0;
+}
+
+/* 縦線 */
+.connection-branch::before {
+    content:"";
+    position:absolute;
+    left:0;
+    top:-20px;
+    bottom:-20px;
+    border-left:4px solid var(--cyan);
+}
+
+/* 各ノードへの横線 */
+.connection-branch span {
+    /*display:block;*/
+    width:22px;
+    height:5px;
+    border-top:4px solid var(--cyan);
+    position:relative;
+    /*z-index:1;*/
+}
+
+.connection-branch span:nth-child(1) {
+    transform: translateY(-35px);
+}
+
+.connection-branch span:nth-child(2) {
+    width:32px;
+    margin-left:-5px;
+    z-index:1;
+}
+
+.connection-branch span:nth-child(3) {
+    transform: translateY(35px);
+}
 
 /*.diagram i::after {
     content:'';
